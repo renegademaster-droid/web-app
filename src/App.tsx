@@ -26,6 +26,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { ServiceRequestPrototype } from "./pages/ServiceRequestPrototype";
+import { UserTest } from "./pages/UserTest";
 
 const MenuIcon = () => (
   <Box aria-hidden w="5" h="4" display="flex" flexDirection="column" justifyContent="space-between">
@@ -36,19 +37,21 @@ const MenuIcon = () => (
 );
 
 const SERVICE_REQUEST_HASH = "#service-request";
+const USER_TEST_HASH = "#user-test";
 
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isServiceRequestPage, setIsServiceRequestPage] = useState(
-    () => window.location.hash === SERVICE_REQUEST_HASH
-  );
+  const [hash, setHash] = useState(() => window.location.hash);
 
   useEffect(() => {
-    const sync = () => setIsServiceRequestPage(window.location.hash === SERVICE_REQUEST_HASH);
+    const sync = () => setHash(window.location.hash);
     sync();
     window.addEventListener("hashchange", sync);
     return () => window.removeEventListener("hashchange", sync);
   }, []);
+
+  const isServiceRequestPage = hash === SERVICE_REQUEST_HASH;
+  const isUserTestPage = hash === USER_TEST_HASH;
 
   const navLinks = (
     <>
@@ -57,6 +60,7 @@ function App() {
       <Link href="#pricing" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Pricing</Link>
       <Link href="#contact" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
       <Link href={SERVICE_REQUEST_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
+      <Link href={USER_TEST_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>User test</Link>
     </>
   );
 
@@ -116,6 +120,7 @@ function App() {
               <Link href="#pricing" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Pricing</Link>
               <Link href="#contact" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
               <Link href={SERVICE_REQUEST_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
+              <Link href={USER_TEST_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>User test</Link>
               <Divider borderColor="figma.borderDefault" my={2} />
               <Button label="Sign in" variant="ghost" w="full" />
               <Button label="Get started" colorScheme="teal" w="full" />
@@ -127,6 +132,8 @@ function App() {
       <main>
         {isServiceRequestPage ? (
           <ServiceRequestPrototype />
+        ) : isUserTestPage ? (
+          <UserTest />
         ) : (
           <>
         {/* Hero */}
