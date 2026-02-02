@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
+import { ServiceRequestPrototype } from "./pages/ServiceRequestPrototype";
 
 const MenuIcon = () => (
   <Box aria-hidden w="5" h="4" display="flex" flexDirection="column" justifyContent="space-between">
@@ -33,8 +35,20 @@ const MenuIcon = () => (
   </Box>
 );
 
+const SERVICE_REQUEST_HASH = "#service-request";
+
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isServiceRequestPage, setIsServiceRequestPage] = useState(
+    () => window.location.hash === SERVICE_REQUEST_HASH
+  );
+
+  useEffect(() => {
+    const sync = () => setIsServiceRequestPage(window.location.hash === SERVICE_REQUEST_HASH);
+    sync();
+    window.addEventListener("hashchange", sync);
+    return () => window.removeEventListener("hashchange", sync);
+  }, []);
 
   const navLinks = (
     <>
@@ -42,6 +56,7 @@ function App() {
       <Link href="#how-it-works" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>How it works</Link>
       <Link href="#pricing" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Pricing</Link>
       <Link href="#contact" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
+      <Link href={SERVICE_REQUEST_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
     </>
   );
 
@@ -100,6 +115,7 @@ function App() {
               <Link href="#how-it-works" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>How it works</Link>
               <Link href="#pricing" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Pricing</Link>
               <Link href="#contact" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
+              <Link href={SERVICE_REQUEST_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
               <Divider borderColor="figma.borderDefault" my={2} />
               <Button label="Sign in" variant="ghost" w="full" />
               <Button label="Get started" colorScheme="teal" w="full" />
@@ -109,6 +125,10 @@ function App() {
       </Drawer>
 
       <main>
+        {isServiceRequestPage ? (
+          <ServiceRequestPrototype />
+        ) : (
+          <>
         {/* Hero */}
         <Box py={{ base: 12, md: 20 }} px={4}>
           <Container maxW="4xl">
@@ -228,6 +248,8 @@ function App() {
             </Card>
           </Container>
         </Box>
+          </>
+        )}
       </main>
 
       {/* Footer */}
