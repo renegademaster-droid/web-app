@@ -27,6 +27,7 @@ import {
 } from "@chakra-ui/react";
 import { ServiceRequestPrototype } from "./pages/ServiceRequestPrototype";
 import { UserTest } from "./pages/UserTest";
+import { Lumon } from "./pages/Lumon";
 
 const MenuIcon = () => (
   <Box aria-hidden w="5" h="4" display="flex" flexDirection="column" justifyContent="space-between">
@@ -38,6 +39,7 @@ const MenuIcon = () => (
 
 const SERVICE_REQUEST_HASH = "#service-request";
 const USER_TEST_HASH = "#user-test";
+const LUMON_HASH = "#lumon";
 
 function App() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -52,6 +54,7 @@ function App() {
 
   const isServiceRequestPage = hash === SERVICE_REQUEST_HASH;
   const isUserTestPage = hash === USER_TEST_HASH;
+  const isLumonPage = hash === LUMON_HASH;
 
   const navLinks = (
     <>
@@ -61,6 +64,7 @@ function App() {
       <Link href="#contact" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
       <Link href={SERVICE_REQUEST_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
       <Link href={USER_TEST_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>User test</Link>
+      <Link href={LUMON_HASH} textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Lumon</Link>
     </>
   );
 
@@ -121,6 +125,7 @@ function App() {
               <Link href="#contact" fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Contact</Link>
               <Link href={SERVICE_REQUEST_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Service request</Link>
               <Link href={USER_TEST_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>User test</Link>
+              <Link href={LUMON_HASH} fontSize="lg" textDecoration="none" _hover={{ textDecoration: "none" }} onClick={onClose}>Lumon</Link>
               <Divider borderColor="figma.borderDefault" my={2} />
               <Button label="Sign in" variant="ghost" w="full" />
               <Button label="Get started" colorScheme="teal" w="full" />
@@ -134,6 +139,8 @@ function App() {
           <ServiceRequestPrototype />
         ) : isUserTestPage ? (
           <UserTest />
+        ) : isLumonPage ? (
+          <Lumon />
         ) : (
           <>
         {/* Hero */}
